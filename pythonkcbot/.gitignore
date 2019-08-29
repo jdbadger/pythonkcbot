@@ -1,0 +1,6 @@
+.chalice/deployments/
+.chalice/venv/
+__pycache__
+.pytest_cache
+tests/__pycache__
+chalicelib/__pycache__
