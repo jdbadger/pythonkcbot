@@ -19,12 +19,12 @@ def make_request(url):
         r = requests.get(url)
         r.raise_for_status()
         return r.json()
-   
+
     except requests.exceptions.RequestException as e:
 
         logger.error(f"A request exception occurred: {e}")
         raise e
-    
+
 
 def get_events():
     """
@@ -36,9 +36,14 @@ def get_events():
     try:
 
         events = make_request(url)
-        return (Event(name=e["name"], date=e["local_date"], link=e["link"], status=e["status"]) for e in events)
-    
+        return (
+            Event(
+                name=e["name"], date=e["local_date"], link=e["link"], status=e["status"]
+            )
+            for e in events
+        )
+
     except Exception as e:
-        
+
         logger.error(f"An error occured while handling the response: {e}")
         raise e

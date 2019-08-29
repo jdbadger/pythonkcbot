@@ -64,7 +64,16 @@ def test_property_days_until(make_event):
     assert event.days_until() == expected
 
 
-@pytest.mark.parametrize('test_input, expected', [([1, "upcoming"], True), ([2, "upcoming"], True), ([10, "upcoming"], True), ([3, "upcoming"], False), ([1, "cancelled"], False)])
+@pytest.mark.parametrize(
+    "test_input, expected",
+    [
+        ([1, "upcoming"], True),
+        ([2, "upcoming"], True),
+        ([10, "upcoming"], True),
+        ([3, "upcoming"], False),
+        ([1, "cancelled"], False),
+    ],
+)
 def test_method_is_target_event(test_input, expected, make_event):
     event = make_event(test_input[0], test_input[1])
     assert event.is_target_event() == expected
@@ -72,17 +81,26 @@ def test_method_is_target_event(test_input, expected, make_event):
 
 def test_method_tweet_days_until_10(make_event):
     event = make_event(days=10)
-    assert event.tweet() == f"RSVPs are open! Join us for our upcoming {event.name} on {event.date_natural}! Event details here: {event.link}"
+    assert (
+        event.tweet()
+        == f"RSVPs are open! Join us for our upcoming {event.name} on {event.date_natural}! Event details here: {event.link}"
+    )
 
 
 def test_method_tweet_days_until_2(make_event):
     event = make_event(days=2)
-    assert event.tweet() == f"Join us for our upcoming {event.name} on {event.date_natural}! Event details and RSVP here: {event.link}"
+    assert (
+        event.tweet()
+        == f"Join us for our upcoming {event.name} on {event.date_natural}! Event details and RSVP here: {event.link}"
+    )
 
 
 def test_method_tweet_days_until_1(make_event):
     event = make_event(days=1)
-    assert event.tweet() == f"KC Pythonistas - Join us tomorrow for {event.name}! Event details and RSVP here: {event.link}"
+    assert (
+        event.tweet()
+        == f"KC Pythonistas - Join us tomorrow for {event.name}! Event details and RSVP here: {event.link}"
+    )
 
 
 def test_method_tweet_days_until_3(make_event):

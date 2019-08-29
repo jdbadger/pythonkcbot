@@ -21,7 +21,7 @@ def _mock_response(status_code=200, json=None, raise_for_status=None):
     return mock_resp
 
 
-@patch('chalicelib.meetup.requests.get')
+@patch("chalicelib.meetup.requests.get")
 def test_make_request(mock_get):
     url = "http://api.meetup.com/pythonkc/events"
     json_data = '{"name": "PythonKC Coffee & Code", "local_date": "2020-02-02", "link": "http://api.meetup.com/pythonkc/events/1", "status": "upcoming"}'
@@ -34,11 +34,15 @@ def test_make_request(mock_get):
     assert response == json_data
 
 
-@patch('chalicelib.meetup.requests.get')
+@patch("chalicelib.meetup.requests.get")
 def test_make_request_raises_exception(mock_get):
-    mock_response = _mock_response(status_code=500, json={"error": "not found"}, raise_for_status=requests.exceptions.RequestException)
+    mock_response = _mock_response(
+        status_code=500,
+        json={"error": "not found"},
+        raise_for_status=requests.exceptions.RequestException,
+    )
     mock_get.return_value = mock_response
-    with patch('chalicelib.meetup.logger') as mock_logger:
+    with patch("chalicelib.meetup.logger") as mock_logger:
         with pytest.raises(requests.exceptions.RequestException):
             url = "http://api.meetup.com/pythonkc/events"
             response = make_request(url)
@@ -49,23 +53,27 @@ def test_make_request_raises_exception(mock_get):
         mock_logger.error.assert_called_with("A request exception occurred: ")
 
 
-@patch('chalicelib.meetup.make_request')
+@patch("chalicelib.meetup.make_request")
 def test_get_events(mock_make_request):
     json_data = '{"name": "PythonKC Coffee & Code", "local_date": "2020-02-02", "link": "http://api.meetup.com/pythonkc/events/1", "status": "upcoming"}'
     mock_make_request.return_value = [json.loads(json_data)]
-    with patch('chalicelib.meetup.logger') as mock_logger:
+    with patch("chalicelib.meetup.logger") as mock_logger:
         events = get_events()
         mock_make_request.assert_called_with("http://api.meetup.com/pythonkc/events")
         mock_logger.error.assert_not_called()
         assert events is not None
 
 
-@patch('chalicelib.meetup.make_request')
+@patch("chalicelib.meetup.make_request")
 def test_get_events_raises_exception(mock_make_request):
     mock_make_request.side_effect = Exception
-    with patch('chalicelib.meetup.logger') as mock_logger:
+    with patch("chalicelib.meetup.logger") as mock_logger:
         with pytest.raises(Exception):
             events = get_events()
-            mock_make_request.assert_called_with("http://api.meetup.com/pythonkc/events")
+            mock_make_request.assert_called_with(
+                "http://api.meetup.com/pythonkc/events"
+            )
             assert events is None
-        mock_logger.error.assert_called_with("An error occured while handling the response: ")
+        mock_logger.error.assert_called_with(
+            "An error occured while handling the response: "
+        )

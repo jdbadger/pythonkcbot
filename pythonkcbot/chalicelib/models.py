@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import datetime
 
+
 @dataclass
 class Event:
 
@@ -9,18 +10,15 @@ class Event:
     link: str
     status: str
 
-
     def __str__(self):
 
         return f"{self.date} - {self.name}"
 
-    
     @property
     def date_natural(self):
 
         return datetime.date.fromisoformat(f"{self.date}").strftime("%A, %B %d")
-    
-    
+
     def days_until(self):
         """
         Returns number of days represented in timedetla object
@@ -30,7 +28,6 @@ class Event:
         d = datetime.date.fromisoformat(f"{self.date}") - datetime.date.today()
         return d.days
 
-   
     def is_target_event(self):
         """
         Returns True if conditions are met that qualify event
@@ -43,7 +40,6 @@ class Event:
 
         return False
 
-    
     def tweet(self):
         """
         Returns unique tweet string given Event object attributes.
