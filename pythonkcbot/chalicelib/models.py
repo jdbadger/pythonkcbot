@@ -45,14 +45,12 @@ class Event:
         Returns unique tweet string given Event object attributes.
         """
 
-        if self.days_until() == 10:
+        tweet_dict = {
+            "1" : f"Hey, KC Pythonistas! Join us tomorrow for {self.name}! Event details and RSVP here: {self.link}",
+            "2" : f"Join us for our upcoming {self.name} on {self.date_natural}! Event details and RSVP here: {self.link}",
+            "10" : f"RSVPs are open! Join us for our upcoming {self.name} on {self.date_natural}! Event details here: {self.link}"
+        }
 
-            return f"RSVPs are open! Join us for our upcoming {self.name} on {self.date_natural}! Event details here: {self.link}"
+        tweet_key = str(self.days_until())
 
-        if self.days_until() == 2:
-
-            return f"Join us for our upcoming {self.name} on {self.date_natural}! Event details and RSVP here: {self.link}"
-
-        if self.days_until() == 1:
-
-            return f"KC Pythonistas - Join us tomorrow for {self.name}! Event details and RSVP here: {self.link}"
+        return tweet_dict.get(tweet_key)

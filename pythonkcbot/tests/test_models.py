@@ -99,7 +99,7 @@ def test_method_tweet_days_until_1(make_event):
     event = make_event(days=1)
     assert (
         event.tweet()
-        == f"KC Pythonistas - Join us tomorrow for {event.name}! Event details and RSVP here: {event.link}"
+        == f"Hey, KC Pythonistas! Join us tomorrow for {event.name}! Event details and RSVP here: {event.link}"
     )
 
 
