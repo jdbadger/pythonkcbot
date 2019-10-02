@@ -22,8 +22,12 @@ def create_api():
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
     try:
+
         api.verify_credentials()
+
     except Exception as e:
+
         logger.error(f"An error occurred while verifying credentials: {e}")
         raise e
+        
     return api
